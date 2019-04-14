@@ -1,9 +1,8 @@
-import { ResolvedValue, RuntimeResolver } from "@glimmer/interfaces";
 import { map } from "@glimmer/reference";
 import { TEMPLATE_ONLY_COMPONENT } from "@glimmer/runtime";
 
 // prettier-ignore
-const TABLE: ResolvedValue[] = [
+const TABLE = [
   // handle 0 is the increment helper
   args => map(args.positional.at(0), (i: number) => i + 1),
 
@@ -11,10 +10,12 @@ const TABLE: ResolvedValue[] = [
   TEMPLATE_ONLY_COMPONENT
 ];
 
-export const RUNTIME_RESOLVER: RuntimeResolver = {
-  resolve(handle: number): ResolvedValue | void {
+export const RUNTIME_RESOLVER: any = {
+  resolve(handle){
     if (handle < TABLE.length) {
       return TABLE[handle];
+    } else {
+      return null;
     }
   }
 };

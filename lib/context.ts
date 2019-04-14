@@ -1,14 +1,5 @@
 import { precompile } from "@glimmer/compiler";
-import {
-  CompilableProgram,
-  CompileTimeComponent,
-  Option
-} from "@glimmer/interfaces";
-import {
-  Component,
-  MINIMAL_CAPABILITIES,
-  ResolverDelegate
-} from "@glimmer/opcode-compiler";
+import { Component, MINIMAL_CAPABILITIES } from "@glimmer/opcode-compiler";
 
 // A map of helpers to runtime handles (that will be passed to the runtime resolver).
 const HELPERS = {
@@ -19,15 +10,13 @@ const HELPERS = {
 // to the runtime resolver).
 const COMPONENTS = {
   Second: {
-    source: `<p>{{@hello}} {{@world}}{{@suffix}} ({{increment @num}})</p>`,
+    source: `<p> This is a test {{@hello}} {{@world}}{{@suffix}} ({{increment @num}})</p>`,
     handle: 1
   }
 };
 
-export const RESOLVER_DELEGATE: ResolverDelegate = {
-  lookupComponent(
-    name: keyof typeof COMPONENTS
-  ): Option<CompileTimeComponent> | void {
+export const RESOLVER_DELEGATE: any = {
+  lookupComponent(name) {
     let component = COMPONENTS[name];
     if (component === null) return null;
 
@@ -40,11 +29,11 @@ export const RESOLVER_DELEGATE: ResolverDelegate = {
     };
   },
 
-  lookupHelper(name: keyof typeof HELPERS): Option<number> | void {
+  lookupHelper(name) {
     if (name in HELPERS) return HELPERS[name];
   }
 };
 
-export function Compilable(source: string): CompilableProgram {
+export function Compilable(source): any {
   return Component(precompile(source));
 }
