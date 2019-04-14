@@ -1,5 +1,6 @@
 import { precompile } from "@glimmer/compiler";
-import { Component, MINIMAL_CAPABILITIES } from "@glimmer/opcode-compiler";
+import { Component } from "@glimmer/opcode-compiler";
+import { CAPABILITIES } from "@glimmer/component";
 
 // A map of helpers to runtime handles (that will be passed to the runtime resolver).
 const HELPERS = {
@@ -9,9 +10,10 @@ const HELPERS = {
 // A map of components to their source code and the runtime handle (that will be passed
 // to the runtime resolver).
 const COMPONENTS = {
-  Second: {
-    source: `<p> This is a test {{@hello}} {{@world}}{{@suffix}} ({{increment @num}})</p>`,
-    handle: 1
+  FirstPage: {
+    source: `<p>Title: {{this.title}}</p>`,
+    handle: 1,
+    capabilities: CAPABILITIES
   }
 };
 
@@ -20,12 +22,12 @@ export const RESOLVER_DELEGATE: any = {
     let component = COMPONENTS[name];
     if (component === null) return null;
 
-    let { handle, source } = component;
-
+    let { handle, source, capabilities } = component;
+    console.log("lookup component");
     return {
       handle,
       compilable: Compilable(source),
-      capabilities: MINIMAL_CAPABILITIES
+      capabilities
     };
   },
 
