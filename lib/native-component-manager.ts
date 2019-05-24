@@ -1,9 +1,10 @@
-import { CONSTANT_TAG, RootReference } from "@glimmer/reference";
+import { CONSTANT_TAG } from '@glimmer/reference';
+import { RootReference } from '@glimmer/component';
 
 const EMPTY_SELF = new RootReference(null);
 const NOOP_DESTROYABLE = { destroy() {} };
-const DESTROYING = Symbol("destroying");
-const DESTROYED = Symbol("destroyed");
+const DESTROYING = Symbol('destroying');
+const DESTROYED = Symbol('destroyed');
 export class Bounds {
   _bounds: any;
   constructor(__bounds) {}
@@ -19,16 +20,15 @@ export class ComponentStateBucket {
   component: any;
   constructor(definition, args) {
     let { ComponentClass, name } = definition;
-    const componentFactory = ComponentClass;
     this.args = args;
-    console.log("In component state bucket");
+    console.log('In component state bucket');
     if (ComponentClass) {
       if (ComponentClass.class !== undefined) {
         ComponentClass = ComponentClass.class;
       }
-      this.component = componentFactory.create({
+      this.component = new ComponentClass({
         args: this.namedArgsSnapshot(),
-        debugName: name
+        debugName: name,
       });
     }
   }
@@ -66,7 +66,7 @@ export default class NativeComponentManager {
     _caller,
     _hasDefaultBlock
   ) {
-    console.log("Create");
+    console.log('Create');
     if (definition.ComponentClass) {
       return new ComponentStateBucket(definition, args.capture());
     } else {
@@ -87,12 +87,12 @@ export default class NativeComponentManager {
     bucket.component.bounds = new Bounds(bounds);
   }
   didCreate(bucket) {
-    console.log("in did created component manager");
+    console.log('in did created component manager');
     if (!bucket) {
       return;
     }
     console.log(
-      "in did created component manager - about to call didInsertElement"
+      'in did created component manager - about to call didInsertElement'
     );
     bucket.component.didInsertElement();
   }
@@ -119,7 +119,7 @@ export default class NativeComponentManager {
         bucket.component[DESTROYING] = true;
         bucket.component.willDestroy();
         bucket.component[DESTROYED] = true;
-      }
+      },
     };
   }
 }

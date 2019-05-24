@@ -1,14 +1,15 @@
-import { map } from "@glimmer/reference";
-import { tracked } from "@glimmer/tracking";
-import Component, { CAPABILITIES } from "@glimmer/component";
-import NativeComponentManager from "./native-component-manager";
+import { map } from '@glimmer/reference';
+import { tracked } from '@glimmer/tracking';
+import Component, { CAPABILITIES } from '@glimmer/component';
+import NativeComponentManager from './native-component-manager';
 class FirstPage extends Component {
-  title: string = "Welcome to Glimmer";
+  title: string = 'Welcome to Glimmer';
   didInsertElement() {
-    this.title = "Heard it both ways";
+    debugger;
+    this.title = 'Heard it both ways';
   }
 }
-tracked(FirstPage.prototype, "title");
+tracked(FirstPage.prototype, 'title');
 
 let manager = new NativeComponentManager();
 // prettier-ignore
@@ -28,7 +29,7 @@ const TABLE = [
           handle: 1
       }
   }
-  
+
 ];
 
 export const RUNTIME_RESOLVER: any = {
@@ -38,5 +39,5 @@ export const RUNTIME_RESOLVER: any = {
     } else {
       return null;
     }
-  }
+  },
 };
